@@ -1,0 +1,195 @@
+body{
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+      display:flex;
+      flex-direction: column;
+      min-height: 100vh;
+
+}
+.container{
+    flex:1;
+}
+.navbar{
+    height:6rem;
+    background-color: white;
+}
+
+.fa-compass{
+    color:#fe424d;
+    font-size: 2rem;
+}
+.nav-link{
+    color:#222222 !important;
+}
+
+.f-info-links a {
+    text-decoration: none; 
+    color:#222222;
+}
+
+.f-info-links a:hover{
+    text-decoration: underline; 
+}
+.f-info{
+    text-align: center;
+    display: flex;
+    height:8rem;
+    background-color: #ebebeb;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items: center;
+   
+}
+.f-info-links{
+    width: 100%;
+}
+.f-info-socials{
+    width:100%;
+    font-size: 1.2rem;
+
+}
+.f-info-socials i{
+    margin-right: 1rem;
+}
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+    
+}
+.card-img-top{
+border-radius: 1rem !important;
+width:100% !important;
+object-fit: cover !important;
+height: 20rem;
+}
+.card-body{
+    padding: 0 !important;
+}
+.card-text p{
+    font-weight:400;
+}
+.listing-link{
+    text-decoration: none;
+}
+.card-img-overlay{
+    opacity:0;
+}
+.card-img-overlay:hover{
+    opacity:0.2;
+   background-color: rgba(255, 255, 255, 0.828);
+}
+
+/* /new page/ */
+.add-btn{
+    background-color: #fe424d !important;
+    border:none !important;
+}
+.edit-btn{
+    background-color: #fe424d !important;
+    border:none !important;
+   width: 80px !important;
+}
+.show-img{
+    height: 40vh;
+}
+.btns{
+    display: flex;
+    
+}
+.editimage{
+    height: 30vh !important;
+    width:40vh !important;
+}
+
+
+
+/* Leaflet Map Styles */
+#map {
+    height: 400px;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+}
+
+/* Custom marker styles */
+.custom-div-icon {
+    background: transparent;
+    border: none;
+}
+
+.leaflet-popup-content {
+    margin: 12px 15px;
+    line-height: 1.4;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+}
+
+/* Map container styling */
+.map-card .card-body {
+    padding: 0 !important;
+}
+
+
+
+
+
+/* Simple Image & Map Mobile Fix */
+@media (max-width: 768px) {
+    /* Fix image */
+    .show-img {
+        height: 30vh !important;
+        width: 100% !important;
+    }
+    
+    
+    
+    /* Fix container widths */
+    .col-6.offset-3 {
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+
+
+    .btns {
+        display: block !important;
+    }
+    
+    .btns .btn,
+    .btns a,
+    .btns form {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Fix reviews */
+    .card.col-5 {
+        width: 20rem !important;
+        height: 10rem !important;
+        margin: 10px 10px 0px 26px!important;
+    }
+    .map-card{
+        margin-left: 20px;
+        height: 300px !important;  
+    }
+    .card-title{
+        font-size: small;
+    }
+
+}
+
+/* Login & Signup Mobile Fix */
+@media (max-width: 768px) {
+    .col-4.offset-4 {
+        width: 90% !important;
+        margin: 4px auto !important;
+    }
+    .btn-success{
+        width: 100%;
+
+    }
+    .col-8.offset-2{
+        margin: 2%;
+        width: 90%;
+    }
+}
+

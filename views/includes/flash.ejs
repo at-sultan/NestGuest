@@ -1,0 +1,21 @@
+<% if (flash) { %>
+  <div class="container col-6 mt-3 offset-3 ">
+    <div class="alert alert-<%= flash.type === 'success' ? 
+    'success' : flash.type === 'error' ?
+     'danger' : 'info' %> alert-dismissible fade show shadow-sm" role="alert">
+      <%= flash.message %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  </div>
+<% } %>
+
+<script>
+  // Auto-hide after 3 seconds
+  setTimeout(() => {
+    const alert = document.querySelector('.alert');
+    if (alert) {
+      const bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    }
+  }, 5000);
+</script>

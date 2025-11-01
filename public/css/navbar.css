@@ -1,0 +1,68 @@
+  .search-btn{
+    background-color: #fe424d;
+    color: white;
+    border-radius: 10rem;
+    padding: 0 1rem 0 1rem;
+  }
+  .search-btn:hover{
+    background-color: #fe424d;
+    color: white;
+
+  }
+  .search-btn i{
+    display: inline;
+    margin-right: 8px ;
+  }
+  .search-inp{
+    border-radius: 10rem;
+    padding:  0.6rem 2rem 0.6rem 2rem;
+  }
+  
+  
+  
+  
+  /* Mobile styles */
+  @media (max-width: 767.98px) {
+    #navbarNavAltMarkup {
+      background: #f8f9fa; /* Light grey background */
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      border: 1px solid #dee2e6;
+      margin: 8px 0;
+      padding: 16px;
+    }
+    
+    .navbar-nav .nav-link {
+      padding: 12px 16px;
+      margin: 4px 0;
+      border-radius: 8px;
+      color: #495057;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-nav .nav-link:hover {
+      background: rgba(255, 255, 255, 0.7);
+      color: #000;
+    }
+    
+    /* Separate the two nav sections in mobile */
+    .navbar-nav:first-child {
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .navbar-nav.ms-auto .nav-link {
+      border-left: 3px solid transparent;
+    }
+    
+    .navbar-nav.ms-auto .nav-link:hover {
+      border-left-color: #6c757d;
+      background: rgba(108, 117, 125, 0.1);
+    }
+  }
+
+  /* Optional: Add smooth animation for the collapse */
+  .navbar-collapse {
+    transition: all 0.3s ease-in-out;
+  }
