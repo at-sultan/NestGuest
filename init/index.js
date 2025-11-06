@@ -6,10 +6,9 @@ const Listing = require("../models/listing.js")
 const Reviews=require("../models/review.js")
 
 //local db connection
-// const MONGO_URL= "mongodb://127.0.0.1:27017/wanderlust";
+// const MONGO_URL= 
 
-const atlasurl="mongodb+srv://mohdsultanf1391:mouse@cluster0.5edlpjc.mongodb.net/?appName=Cluster0"
-
+//const atlasurl=
 main()
 .then(()=>{
     console.log("Connected to DB")
