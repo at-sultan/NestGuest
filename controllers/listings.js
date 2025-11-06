@@ -32,36 +32,59 @@ res.render("listings/show.ejs",{listing})
 }
 
 
-module.exports.createListing = async(req,res,next)=>{
-    let url = req.file.path;
-    let filename = req.file.filename;
-    const newListing = new Listing(req.body.listing);
-    newListing.owner=req.user._id;
-    console.log(req.user._id)
-    console.log(req.user)
-    newListing.image = {url, filename}
-
-        // Geocode the address to get coordinates
-    const fullAddress = `${req.body.listing.location}, ${req.body.listing.country}`;
-        const geocoded = await geocodeAddress(fullAddress);
+module.exports.createListing = async (req, res, next) => {
+    try {
+        // Validate required fields
+        const { location, country, title, price } = req.body.listing;
         
-        if (geocoded) {
-            newListing.latitude = geocoded.latitude;
-            newListing.longitude = geocoded.longitude;
-            console.log(`Geocoded coordinates: ${geocoded.latitude}, ${geocoded.longitude}`);
-        } else {
-            // Fallback coordinates (Delhi, India)
-            newListing.latitude = 28.6139;
-            newListing.longitude = 77.2090;
-            console.log('Using default coordinates');
+        if (!location || !country) {
+            req.flash('error', 'Location and country are required');
+            return res.redirect('/listings/new');
         }
 
-    await newListing.save();
-    req.flash("success", "new listing created!")
-    res.redirect("/listings")
+        // Handle image upload
+        let imageData = {};
+        if (req.file) {
+            imageData = {
+                url: req.file.path,
+                filename: req.file.filename
+            };
+        }
 
-}
+        // Create new listing
+        const newListing = new Listing({
+            ...req.body.listing,
+            owner: req.user._id,
+            image: imageData
+        });
 
+        // Geocode the address
+        const fullAddress = `${location.trim()}, ${country.trim()}`;
+        console.log(`Mobile geocoding: ${fullAddress}`);
+        
+        const geocoded = await geocodeAddress(fullAddress);
+        
+        if (geocoded && geocoded.latitude && geocoded.longitude) {
+            newListing.latitude = geocoded.latitude;
+            newListing.longitude = geocoded.longitude;
+            console.log(`✅ Coordinates set: ${geocoded.latitude}, ${geocoded.longitude}`);
+        } else {
+            // Fallback to Delhi coordinates
+            newListing.latitude = 28.6139;
+            newListing.longitude = 77.2090;
+            console.log('⚠️ Using default Delhi coordinates');
+        }
+
+        await newListing.save();
+        req.flash("success", "New listing created!");
+        res.redirect("/listings");
+
+    } catch (error) {
+        console.error('Create listing error:', error);
+        req.flash('error', 'Failed to create listing');
+        res.redirect('/listings/new');
+    }
+};
 module.exports.renderEditForm = async(req,res)=>{
     let {id}= req.params;
    const listing = await Listing.findById(id);
@@ -77,33 +100,61 @@ module.exports.renderEditForm = async(req,res)=>{
 
 
 
-module.exports.updateListing = async (req,res)=>{
-let {id} = req.params;
-let listing = await Listing.findByIdAndUpdate((id), {...req.body.listing});
+module.exports.updateListing = async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        // Find the listing first
+        let listing = await Listing.findById(id);
+        if (!listing) {
+            req.flash('error', 'Listing not found');
+            return res.redirect('/listings');
+        }
 
-        // If location or country changed, re-geocode
-        if (req.body.listing.location || req.body.listing.country) {
-            const fullAddress = `${req.body.listing.location || listing.location}, ${req.body.listing.country || listing.country}`;
+        // Update basic fields
+        listing.set(req.body.listing);
+
+        // Check if location data changed
+        const locationChanged = req.body.listing.location || req.body.listing.country;
+        
+        if (locationChanged) {
+            const location = req.body.listing.location || listing.location;
+            const country = req.body.listing.country || listing.country;
+            const fullAddress = `${location}, ${country}`;
+            
+            console.log(`Updating location: ${fullAddress}`);
+            
             const geocoded = await geocodeAddress(fullAddress);
             
-            if (geocoded) {
+            if (geocoded && geocoded.latitude && geocoded.longitude) {
                 listing.latitude = geocoded.latitude;
                 listing.longitude = geocoded.longitude;
-                console.log(`Updated coordinates: ${geocoded.latitude}, ${geocoded.longitude}`);
+                console.log(`✅ Updated coordinates: ${geocoded.latitude}, ${geocoded.longitude}`);
+            } else {
+                console.log('⚠️ Keeping existing coordinates');
             }
         }
 
+        // Update image if new file uploaded
+        if (req.file) {
+            listing.image = {
+                url: req.file.path,
+                filename: req.file.filename
+            };
+        }
 
-if(typeof req.file !=="undefined"){
-let url = req.file.path;
-let filename = req.file.filename;
-listing.image= {url, filename};
-await listing.save();
-}
-req.flash("success", "listing updated!")
-res.redirect(`/listings/${id}`)
-}
+        // Save all changes
+        await listing.save();
+        
+        req.flash("success", "Listing updated successfully!");
+        res.redirect(`/listings/${id}`);
 
+    } catch (error) {
+        console.error('Update listing error:', error);
+        req.flash('error', 'Failed to update listing');
+        res.redirect(`/listings/${id}/edit`);
+    }
+};
 
 module.exports.destroyListing = async (req,res)=>{
     let {id} = req.params;

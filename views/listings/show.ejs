@@ -106,31 +106,32 @@
         <div class="card map-card">
             <div class="card-header">
                 <h5 class="card-title mb-0">
-                    <i class="fas fa-map-marker-alt me-2"></i>
-                    <%= listing.title %> Location
+                    <i class="fas fa-map-marked-alt me-2"></i>
+                    Location Map
                 </h5>
             </div>
             <div id="map" 
                  data-lat="<%= listing.latitude %>" 
                  data-lng="<%= listing.longitude %>"
                  data-title="<%= listing.title %>"
-                 data-address="<%= listing.location %>, <%= listing.country %>">
+                 data-address="<%= listing.location %>, <%= listing.country %>"
+                 >
             </div>
             <div class="card-footer">
                 <small class="text-muted">
                     <i class="fas fa-info-circle me-1"></i>
-                    <%= listing.location %>, <%= listing.country %>
+                    <strong><%= listing.location %>, <%= listing.country %></strong>
                     <% if(listing.latitude && listing.longitude) { %>
                         | Coordinates: <%= listing.latitude.toFixed(4) %>, <%= listing.longitude.toFixed(4) %>
-                    <% } else { %>
-                        | <span class="text-warning">Approximate location</span>
+                    <% } %>
+                    <% if(listing.latitude === 28.6139 && listing.longitude === 77.2090) { %>
+                        | <span class="text-warning"><i class="fas fa-exclamation-triangle"></i> General location</span>
                     <% } %>
                 </small>
             </div>
         </div>
     </div>
 </div>
-
 
 
 
